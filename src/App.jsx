@@ -1,7 +1,16 @@
-const cors = require("cors");
 import "./App.css";
+import { useState } from "react";
+import Header from "./components/Header";
+import Articles from "./components/Articles";
 
-function App() {}
+function App() {
+  const [article, setArticle] = useState([]);
 
-App.use(cors());
+  return (
+    <div>
+      <Header />
+      <Articles article={article} setArticle={setArticle} />
+    </div>
+  );
+}
 export default App;
