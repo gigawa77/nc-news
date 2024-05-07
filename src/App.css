@@ -14,7 +14,8 @@
   margin-bottom: 200px;
 }
 
-.article {
+.article,
+.comment {
   border: 1px solid;
   margin: 14px;
   text-align: center;
