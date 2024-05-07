@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Articles({ article, setArticle }) {
   useEffect(() => {
@@ -26,9 +27,11 @@ function Articles({ article, setArticle }) {
             }}
             className="article"
           >
-            <h4>{article.title}</h4>
-            <img src={article.article_img_url} width="200" />
-            <p>written by: {article.author}</p>
+            <Link to={`/${article.article_id}`}>
+              <h4>{article.title}</h4>
+              <img src={article.article_img_url} width="200" />
+              <p>written by: {article.author}</p>
+            </Link>
           </div>
         );
       })}

@@ -13,3 +13,9 @@
 .header {
   margin-bottom: 200px;
 }
+
+.article {
+  border: 1px solid;
+  margin: 14px;
+  text-align: center;
+}
