@@ -7,6 +7,9 @@ function OneArticle() {
   const [articleComments, setArticleComments] = useState([]);
   const [upvoteClick, setUpvoteClick] = useState(false);
   const [downvoteClick, setDownvoteClick] = useState(false);
+  const [username, setUsername] = useState("");
+  const [comment, setComment] = useState("");
+  const [commentPosted, setCommentPosted] = useState(false);
 
   const { article_id } = useParams();
 
@@ -83,6 +86,20 @@ function OneArticle() {
     }
   }
 
+  function postComment() {
+    axios
+      .post(
+        `https://backend-service-project-2.onrender.com/api/articles/${article_id}/comments`,
+        { username: username, body: comment }
+      )
+      .then((response) => {
+        setCommentPosted(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
     <div className="article">
       <h4>{singleArticle.title}</h4>
@@ -111,6 +128,43 @@ function OneArticle() {
       </button>
       <br />
       <h2>Comments</h2>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          postComment(username, comment);
+        }}
+      >
+        <label htmlFor="username">Username: </label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+        />
+        <br />
+        <label htmlFor="comment">Comment: </label>
+        <textarea
+          id="comment"
+          name="comment"
+          value={comment}
+          onChange={(event) => setComment(event.target.value)}
+          style={{
+            height: "120px",
+            resize: "both",
+            verticalAlign: "top",
+            paddingTop: "8px",
+            marginTop: "8px",
+          }}
+        />
+        <br />
+        <button type="submit" disabled={commentPosted}>
+          Post comment
+        </button>
+        {commentPosted && (
+          <p style={{ color: "green" }}>Comment posted successfully!</p>
+        )}
+      </form>
       {articleComments
         .sort((a, b) => b.votes - a.votes)
         .map((comment) => {
