@@ -20,3 +20,20 @@
   margin: 14px;
   text-align: center;
 }
+
+.comment {
+  background-color: azure;
+  color: black;
+}
+
+.commentAuthor {
+  font-weight: bold;
+}
+
+.upvoteButton {
+  background-color: green;
+}
+
+.downvoteButton {
+  background-color: red;
+}
