@@ -2,12 +2,11 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function OneArticle() {
+function OneArticle({ user }) {
   const [singleArticle, setSingleArticle] = useState([]);
   const [articleComments, setArticleComments] = useState([]);
   const [upvoteClick, setUpvoteClick] = useState(false);
   const [downvoteClick, setDownvoteClick] = useState(false);
-  const [username, setUsername] = useState("");
   const [comment, setComment] = useState("");
   const [commentPosted, setCommentPosted] = useState(false);
 
@@ -90,13 +89,26 @@ function OneArticle() {
     axios
       .post(
         `https://backend-service-project-2.onrender.com/api/articles/${article_id}/comments`,
-        { username: username, body: comment }
+        { username: user, body: comment }
       )
       .then((response) => {
         setCommentPosted(true);
       })
       .catch((error) => {
         console.log(error);
+      });
+  }
+
+  function deleteComment(comment_id) {
+    axios
+      .delete(
+        `https://backend-service-project-2.onrender.com/api/comments/${comment_id}`
+      )
+      .then((response) => {
+        setArticleComments((articleComments) =>
+          articleComments.filter((comment) => comment.comment_id !== comment_id)
+        );
+        alert("Comment successfully deleted");
       });
   }
 
@@ -131,18 +143,9 @@ function OneArticle() {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          postComment(username, comment);
+          postComment(user, comment);
         }}
       >
-        <label htmlFor="username">Username: </label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
-        <br />
         <label htmlFor="comment">Comment: </label>
         <textarea
           id="comment"
@@ -174,6 +177,14 @@ function OneArticle() {
               <p>{comment.body}</p>
               <p>Posted at: {comment.created_at}</p>
               <p>votes: {comment.votes}</p>
+              {comment.author === user && (
+                <button
+                  className="deleteComment"
+                  onClick={() => deleteComment(comment.comment_id)}
+                >
+                  Delete comment
+                </button>
+              )}
             </div>
           );
         })}

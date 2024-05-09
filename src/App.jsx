@@ -7,16 +7,20 @@ import OneArticle from "./components/OneArticle";
 
 function App() {
   const [article, setArticle] = useState([]);
+  const [user, setUser] = useState("tickle122");
 
   return (
     <>
-      <Header />
+      <Header user={user} setUser={setUser} />
       <Routes>
         <Route
           path="/"
           element={<Articles article={article} setArticle={setArticle} />}
         />
-        <Route path="/:article_id" element={<OneArticle article={article} />} />
+        <Route
+          path="/:article_id"
+          element={<OneArticle article={article} user={user} />}
+        />
       </Routes>
     </>
   );
