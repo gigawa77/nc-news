@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header({ user, setUser }) {
+  function login() {}
+
+  function signup() {}
   return (
     <div>
       <header className="header">
@@ -12,7 +15,7 @@ function Header() {
           />
         </Link>
         <br />
-        <button className="loginSignup">login/signup</button>
+        <button className="user">{user}</button>
       </header>
     </div>
   );
